@@ -9,7 +9,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ObjectModel {
-    private Long id;
+public class RestaurantModel {
+
+    private Long restaurantId;
     private String name;
+    private String address;
+    private Long ownerId;
+    private String telephone;
+    private String urlLogo;
+    private String nit;
 }
