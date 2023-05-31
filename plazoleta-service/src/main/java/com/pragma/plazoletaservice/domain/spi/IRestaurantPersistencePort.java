@@ -14,4 +14,8 @@ public interface IRestaurantPersistencePort {
     void deleteRestaurantById(Long id);
 
     void updateRestaurantById(Long id, RestaurantModel restaurantModel);
+
+    boolean existsById(Long id);
+
+    boolean existsByNit(String nit);
 }

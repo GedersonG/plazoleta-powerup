@@ -38,4 +38,14 @@ public class RestaurantUseCase implements IRestaurantServicePort {
     public void updateRestaurantById(Long id, RestaurantModel restaurantModel) {
         restaurantPersistencePort.updateRestaurantById(id, restaurantModel);
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return restaurantPersistencePort.existsById(id);
+    }
+
+    @Override
+    public boolean existsByNit(String nit) {
+        return restaurantPersistencePort.existsByNit(nit);
+    }
 }

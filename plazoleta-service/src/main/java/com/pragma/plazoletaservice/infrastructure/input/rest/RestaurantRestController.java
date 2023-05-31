@@ -62,10 +62,8 @@ public class RestaurantRestController {
 
     @Operation(summary = "Delete restaurant")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Restaurant deleted",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = RestaurantResponseDto.class))),
-            @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Restaurant deleted", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Bad id restaurant", content = @Content)
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRestaurantById(@PathVariable Long id) {
@@ -73,12 +71,11 @@ public class RestaurantRestController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Delete restaurant")
+    @Operation(summary = "Update restaurant")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Restaurant deleted",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = RestaurantResponseDto.class))),
-            @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
+            @ApiResponse(responseCode = "200", description = "Restaurant updated", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad updated", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Bad id restaurant", content = @Content)
     })
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateRestaurantById(

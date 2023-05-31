@@ -2,6 +2,7 @@ package com.pragma.plazoletaservice.infrastructure.out.jpa.adapter;
 
 import com.pragma.plazoletaservice.domain.model.RestaurantModel;
 import com.pragma.plazoletaservice.domain.spi.IRestaurantPersistencePort;
+import com.pragma.plazoletaservice.infrastructure.exception.AlreadyExistsException;
 import com.pragma.plazoletaservice.infrastructure.exception.NoDataFoundException;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
@@ -22,7 +23,6 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
 
     @Override
     public RestaurantModel saveRestaurant(RestaurantModel restaurantModel) {
-        logger.info("Saving restaurant...");
         RestaurantEntity restaurantEntity = restaurantRepository.save(restaurantEntityMapper.toEntity(restaurantModel));
 
         logger.info("New restaurant saved: {} with id -> {}",
@@ -33,12 +33,7 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
 
     @Override
     public List<RestaurantModel> getAllRestaurants() {
-        List<RestaurantEntity> entityList = restaurantRepository.findAll();
-        if (entityList.isEmpty()) {
-            logger.error("Restaurant list it's empty.");
-            throw new NoDataFoundException();
-        }
-        return restaurantEntityMapper.toRestaurantModelList(entityList);
+        return restaurantEntityMapper.toRestaurantModelList(restaurantRepository.findAll());
     }
 
     @Override
@@ -52,17 +47,11 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
 
     @Override
     public void deleteRestaurantById(Long id) {
-        existsById(id);
-
-        logger.warn("Deleting restaurant with id {}", id);
         restaurantRepository.deleteById(id);
     }
 
     @Override
     public void updateRestaurantById(Long id, RestaurantModel restaurantModel) {
-        existsById(id);
-
-        logger.info("Updating restaurant...");
         restaurantRepository.updateRestaurant(
                 id,
                 restaurantModel.getName(),
@@ -73,10 +62,13 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
         );
     }
 
-    private void existsById(Long id) {
-        if (!restaurantRepository.existsById(id)) {
-            logger.error("The restaurant with id {} does not exists.", id);
-            throw new NoDataFoundException();
-        }
+    @Override
+    public boolean existsById(Long id) {
+        return restaurantRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsByNit(String nit) {
+        return restaurantRepository.existsByNit(nit);
     }
 }

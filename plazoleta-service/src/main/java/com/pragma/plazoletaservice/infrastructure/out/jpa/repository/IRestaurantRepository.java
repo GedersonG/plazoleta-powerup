@@ -26,4 +26,6 @@ public interface IRestaurantRepository extends JpaRepository<RestaurantEntity, L
             @Param("urlLogo") String urlLogo,
             @Param("nit") String nit
     );
+
+    boolean existsByNit(String nit);
 }
