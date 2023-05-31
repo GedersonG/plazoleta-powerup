@@ -4,33 +4,27 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
 @Setter
 @Builder
-public class RestaurantRequestDto {
+public class UpdateRestaurantRequestDto {
 
-    @NotEmpty(message = "The name of the restaurant is required")
     @Size(min = 1, max = 50, message = "The name of the restaurant must be between 1 and 50 characters.")
     private String name;
 
-    @NotEmpty(message = "The address of the restaurant is mandatory")
     @Size(min = 1, max = 50, message = "The address must be between 1 and 50 characters.")
     private String address;
 
-    @NotEmpty(message = "The restaurant needs an owner")
     private Long ownerId;
 
-    @NotEmpty(message = "Please enter a number")
     @Pattern(regexp = "^[0-9]{10}$", message = "Invalid phone number.")
     private String telephone;
 
     private String urlLogo;
 
-    @NotEmpty(message = "The nit is mandatory")
     @Pattern(regexp = "^[0-9]$", message = "Invalid nit.")
     private String nit;
 }

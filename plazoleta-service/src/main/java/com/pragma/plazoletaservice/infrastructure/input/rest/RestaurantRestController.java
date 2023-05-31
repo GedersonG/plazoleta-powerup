@@ -1,6 +1,7 @@
 package com.pragma.plazoletaservice.infrastructure.input.rest;
 
 import com.pragma.plazoletaservice.application.dto.request.RestaurantRequestDto;
+import com.pragma.plazoletaservice.application.dto.request.UpdateRestaurantRequestDto;
 import com.pragma.plazoletaservice.application.dto.response.RestaurantResponseDto;
 import com.pragma.plazoletaservice.application.handler.IRestaurantHandler;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,12 +13,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,8 +30,8 @@ public class RestaurantRestController {
             @ApiResponse(responseCode = "201", description = "Restaurant created", content = @Content),
             @ApiResponse(responseCode = "409", description = "Restaurant already exists", content = @Content)
     })
-    @PostMapping("/")
-    public ResponseEntity<Void> saveRestaurant(@RequestBody RestaurantRequestDto restaurantRequestDto) {
+    @PostMapping
+    public ResponseEntity<Void> saveRestaurant(@Valid @RequestBody RestaurantRequestDto restaurantRequestDto) {
         restaurantHandler.saveRestaurant(restaurantRequestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -45,9 +43,49 @@ public class RestaurantRestController {
                             array = @ArraySchema(schema = @Schema(implementation = RestaurantResponseDto.class)))),
             @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
     })
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<RestaurantResponseDto>> getAllRestaurants() {
         return ResponseEntity.ok(restaurantHandler.getAllRestaurants());
     }
 
+    @Operation(summary = "Get restaurant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Restaurant returned",
+                    content = @Content(mediaType = "application/json",
+                             schema = @Schema(implementation = RestaurantResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<RestaurantResponseDto> getRestaurantById(@PathVariable Long id) {
+        return ResponseEntity.ok(restaurantHandler.getRestaurantById(id));
+    }
+
+    @Operation(summary = "Delete restaurant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Restaurant deleted",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RestaurantResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRestaurantById(@PathVariable Long id) {
+        restaurantHandler.deleteRestaurantById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Delete restaurant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Restaurant deleted",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RestaurantResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateRestaurantById(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateRestaurantRequestDto requestDto
+    ) {
+        restaurantHandler.updateRestaurantById(id, requestDto);
+        return ResponseEntity.ok().build();
+    }
 }

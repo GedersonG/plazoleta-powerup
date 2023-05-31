@@ -1,6 +1,7 @@
 package com.pragma.plazoletaservice.application.handler.impl;
 
 import com.pragma.plazoletaservice.application.dto.request.RestaurantRequestDto;
+import com.pragma.plazoletaservice.application.dto.request.UpdateRestaurantRequestDto;
 import com.pragma.plazoletaservice.application.dto.response.RestaurantResponseDto;
 import com.pragma.plazoletaservice.application.handler.IRestaurantHandler;
 import com.pragma.plazoletaservice.application.mapper.IRestaurantRequestMapper;
@@ -31,5 +32,20 @@ public class RestaurantHandler implements IRestaurantHandler {
     @Override
     public List<RestaurantResponseDto> getAllRestaurants() {
         return restaurantResponseMapper.toResponseList(restaurantServicePort.getAllRestaurants());
+    }
+
+    @Override
+    public RestaurantResponseDto getRestaurantById(Long id) {
+        return restaurantResponseMapper.toResponse(restaurantServicePort.getRestaurantById(id));
+    }
+
+    @Override
+    public void deleteRestaurantById(Long id) {
+        restaurantServicePort.deleteRestaurantById(id);
+    }
+
+    @Override
+    public void updateRestaurantById(Long id, UpdateRestaurantRequestDto requestDto) {
+        restaurantServicePort.updateRestaurantById(id, restaurantRequestMapper.updateToRestaurant(requestDto));
     }
 }

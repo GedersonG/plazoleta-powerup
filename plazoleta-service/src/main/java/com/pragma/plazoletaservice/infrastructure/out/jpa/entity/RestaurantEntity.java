@@ -31,11 +31,13 @@ public class RestaurantEntity {
     @Column(length = 50, nullable = false)
     private String address;
 
-    @Column(nullable = false)
-    private Long ownerId;
+    @Column(name = "owner_id", nullable = false)
+    private Long ownerId; // Set de Usuarios
 
+    @Column(length = 10)
     private String telephone;
 
+    @Column(name = "url_logo")
     private String urlLogo;
 
     @Column(nullable = false, unique = true)
