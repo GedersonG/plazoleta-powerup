@@ -1,4 +1,4 @@
-package com.pragma.plazoletaservice.application.mapper;
+package com.pragma.plazoletaservice.application.mapper.request;
 
 import com.pragma.plazoletaservice.application.dto.request.RestaurantRequestDto;
 import com.pragma.plazoletaservice.application.dto.request.UpdateRestaurantRequestDto;

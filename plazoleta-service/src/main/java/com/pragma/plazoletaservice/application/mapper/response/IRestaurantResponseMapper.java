@@ -1,4 +1,4 @@
-package com.pragma.plazoletaservice.application.mapper;
+package com.pragma.plazoletaservice.application.mapper.response;
 
 import com.pragma.plazoletaservice.application.dto.response.RestaurantResponseDto;
 import com.pragma.plazoletaservice.domain.model.RestaurantModel;

@@ -2,7 +2,6 @@ package com.pragma.plazoletaservice.infrastructure.out.jpa.adapter;
 
 import com.pragma.plazoletaservice.domain.model.RestaurantModel;
 import com.pragma.plazoletaservice.domain.spi.IRestaurantPersistencePort;
-import com.pragma.plazoletaservice.infrastructure.exception.AlreadyExistsException;
 import com.pragma.plazoletaservice.infrastructure.exception.NoDataFoundException;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
@@ -20,10 +19,10 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
     private final IRestaurantRepository restaurantRepository;
     private final IRestaurantEntityMapper restaurantEntityMapper;
 
-
     @Override
     public RestaurantModel saveRestaurant(RestaurantModel restaurantModel) {
-        RestaurantEntity restaurantEntity = restaurantRepository.save(restaurantEntityMapper.toEntity(restaurantModel));
+        RestaurantEntity restaurantEntity =
+                restaurantRepository.save(restaurantEntityMapper.toEntity(restaurantModel));
 
         logger.info("New restaurant saved: {} with id -> {}",
                     restaurantEntity.getName(),
@@ -33,7 +32,12 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
 
     @Override
     public List<RestaurantModel> getAllRestaurants() {
-        return restaurantEntityMapper.toRestaurantModelList(restaurantRepository.findAll());
+        List<RestaurantEntity> restaurantList = restaurantRepository.findAll();
+        if (restaurantList.isEmpty()) {
+            logger.error("Restaurant list it's empty.");
+            throw new NoDataFoundException();
+        }
+        return restaurantEntityMapper.toRestaurantModelList(restaurantList);
     }
 
     @Override

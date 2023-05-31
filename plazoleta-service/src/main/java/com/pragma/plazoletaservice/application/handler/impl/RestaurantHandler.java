@@ -4,8 +4,8 @@ import com.pragma.plazoletaservice.application.dto.request.RestaurantRequestDto;
 import com.pragma.plazoletaservice.application.dto.request.UpdateRestaurantRequestDto;
 import com.pragma.plazoletaservice.application.dto.response.RestaurantResponseDto;
 import com.pragma.plazoletaservice.application.handler.IRestaurantHandler;
-import com.pragma.plazoletaservice.application.mapper.IRestaurantRequestMapper;
-import com.pragma.plazoletaservice.application.mapper.IRestaurantResponseMapper;
+import com.pragma.plazoletaservice.application.mapper.request.IRestaurantRequestMapper;
+import com.pragma.plazoletaservice.application.mapper.response.IRestaurantResponseMapper;
 import com.pragma.plazoletaservice.domain.api.IRestaurantServicePort;
 import com.pragma.plazoletaservice.domain.model.RestaurantModel;
 import com.pragma.plazoletaservice.infrastructure.exception.AlreadyExistsException;
@@ -31,10 +31,10 @@ public class RestaurantHandler implements IRestaurantHandler {
     @Override
     public void saveRestaurant(RestaurantRequestDto restaurantRequestDto) {
         existsByNit(restaurantRequestDto.getNit());
-
         if (restaurantRequestDto.getUrlLogo() == null) {
             restaurantRequestDto.setUrlLogo("");
         }
+
         RestaurantModel restaurantModel = restaurantRequestMapper.toRestaurant(restaurantRequestDto);
         logger.info("Saving restaurant...");
         restaurantServicePort.saveRestaurant(restaurantModel);
@@ -42,13 +42,7 @@ public class RestaurantHandler implements IRestaurantHandler {
 
     @Override
     public List<RestaurantResponseDto> getAllRestaurants() {
-        List<RestaurantResponseDto> restaurantList = restaurantResponseMapper
-                .toResponseList(restaurantServicePort.getAllRestaurants());
-        if (restaurantList.isEmpty()) {
-            logger.error("Restaurant list it's empty.");
-            throw new NoDataFoundException();
-        }
-        return restaurantList;
+        return restaurantResponseMapper.toResponseList(restaurantServicePort.getAllRestaurants());
     }
 
     @Override

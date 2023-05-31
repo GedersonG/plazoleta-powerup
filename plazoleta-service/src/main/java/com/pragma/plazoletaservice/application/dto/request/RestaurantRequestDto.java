@@ -16,6 +16,7 @@ public class RestaurantRequestDto {
 
     @NotEmpty(message = "The name of the restaurant is required")
     @Size(min = 1, max = 50, message = "The name of the restaurant must be between 1 and 50 characters.")
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "The name cannot contain special characters")
     private String name;
 
     @NotEmpty(message = "The address of the restaurant is mandatory")
