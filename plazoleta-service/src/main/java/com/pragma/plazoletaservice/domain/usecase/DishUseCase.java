@@ -45,7 +45,7 @@ public class DishUseCase implements IDishServicePort {
     }
 
     @Override
-    public boolean existsByName(String name) {
-        return false;
+    public Object[] findRestaurantAndCategoryByIds(Long restaurantId, Long categoryId) {
+        return dishPersistencePort.findRestaurantAndCategoryByIds(restaurantId, categoryId);
     }
 }

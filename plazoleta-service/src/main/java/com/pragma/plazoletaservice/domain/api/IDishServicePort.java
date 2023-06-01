@@ -18,5 +18,5 @@ public interface IDishServicePort {
 
     boolean existsById(Long id);
 
-    boolean existsByName(String name);
+    Object[] findRestaurantAndCategoryByIds(Long restaurantId, Long categoryId);
 }

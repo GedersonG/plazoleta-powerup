@@ -32,23 +32,23 @@ public class DishEntity {
     @Column(nullable = false, length = 30)
     private String name;
 
-    @OneToOne
-    @JoinColumn(nullable = false, name = "category_id")
-    private CategoryEntity category;
-
     @Column(length = 50)
     private String description;
 
     @Column(nullable = false, length = 6)
     private int price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    private RestaurantEntity restaurant;
-
     @Column(name = "url_image")
     private String urlImage;
 
     @Column(nullable = false)
     private boolean active = false;
+
+    @OneToOne
+    @JoinColumn(nullable = false, name = "category_id")
+    private CategoryEntity category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private RestaurantEntity restaurant;
 }

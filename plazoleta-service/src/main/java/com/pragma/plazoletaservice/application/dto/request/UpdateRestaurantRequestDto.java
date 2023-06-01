@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 public class UpdateRestaurantRequestDto {
 
     @Size(min = 1, max = 50, message = "The name of the restaurant must be between 1 and 50 characters.")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "The name cannot contain special characters")
     private String name;
 
     @Size(min = 1, max = 50, message = "The address must be between 1 and 50 characters.")

@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 public class CategoryRequestDto {
 
     @NotEmpty(message = "The name of category is required.")
+    @Size(min = 1, max = 50, message = "The name of the category must be between 1 and 50 characters.")
     @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "The name cannot contain special characters")
     private String name;
 
