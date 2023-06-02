@@ -2,7 +2,9 @@ package com.pragma.plazoletaservice.infrastructure.out.jpa.adapter;
 
 import com.pragma.plazoletaservice.domain.model.DishModel;
 import com.pragma.plazoletaservice.domain.spi.IDishPersistencePort;
+import com.pragma.plazoletaservice.infrastructure.exception.CategoryDoesNotExistException;
 import com.pragma.plazoletaservice.infrastructure.exception.NoDataFoundException;
+import com.pragma.plazoletaservice.infrastructure.exception.RestaurantDoesNotExistException;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.entity.DishEntity;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.mapper.IDishEntityMapper;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.repository.IDishRepository;
@@ -76,9 +78,16 @@ public class DishJpaAdapter implements IDishPersistencePort {
     }
 
     @Override
-    public Object[] findRestaurantAndCategoryByIds(Long restaurantId, Long categoryId) {
+    public Object findRestaurantByRestaurantId(Long restaurantId) {
         return dishRepository
-                .findRestaurantAndCategoryByIds(restaurantId, categoryId)
-                .orElseThrow(NoDataFoundException::new);
+                .findRestaurantByRestaurantId(restaurantId)
+                .orElseThrow(RestaurantDoesNotExistException::new);
+    }
+
+    @Override
+    public Object findCategoryByCategoryId(Long categoryId) {
+        return dishRepository
+                .findCategoryByCategoryId(categoryId)
+                .orElseThrow(CategoryDoesNotExistException::new);
     }
 }

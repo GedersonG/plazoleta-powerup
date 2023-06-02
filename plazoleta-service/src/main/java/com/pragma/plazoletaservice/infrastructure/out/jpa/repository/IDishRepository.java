@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface IDishRepository extends JpaRepository<DishEntity, Long> {
+
     @Modifying
     @Query("UPDATE DishEntity d SET " +
            "d.name = COALESCE(:name, d.name), " +
@@ -32,12 +33,15 @@ public interface IDishRepository extends JpaRepository<DishEntity, Long> {
                     @Param("restaurant") RestaurantEntity restaurant
     );
 
-    @Query("SELECT d.restaurant, d.category " +
+    @Query("SELECT d.restaurant " +
            "FROM DishEntity d " +
-           "WHERE d.restaurant.restaurantId = :restaurantId " +
-           "AND d.category.categoryId = :categoryId"
+           "WHERE d.restaurant.restaurantId = :restaurantId"
     )
-    Optional<Object[]> findRestaurantAndCategoryByIds(@Param("restaurantId") Long restaurantId,
-                                                      @Param("categoryId") Long categoryId
-    );
+    Optional<RestaurantEntity> findRestaurantByRestaurantId(@Param("restaurantId") Long restaurantId);
+
+    @Query("SELECT d.category " +
+            "FROM DishEntity d " +
+            "WHERE d.category.categoryId = :categoryId"
+    )
+    Optional<CategoryEntity> findCategoryByCategoryId(@Param("categoryId") Long categoryId);
 }

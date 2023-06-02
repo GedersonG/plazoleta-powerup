@@ -31,15 +31,18 @@ public class DishHandler implements IDishHandler {
 
     @Override
     public void saveDish(DishRequestDto dishRequestDto) {
-        Object[] data = getData(dishRequestDto.getRestaurantId(), dishRequestDto.getCategoryId());
+        logger.info("Verifying restaurant id and category id");
+        RestaurantModel restaurant = getRestaurantByRestaurantId(dishRequestDto.getRestaurantId());
+        CategoryModel category = getCategoryByCategoryId(dishRequestDto.getRestaurantId());
 
         if (dishRequestDto.getDescription() == null) {
             dishRequestDto.setDescription("");
         }
-        DishModel dishModel = dishRequestMapper.toDish(dishRequestDto);
 
-        dishModel.setRestaurant((RestaurantModel) data[0]);
-        dishModel.setCategory((CategoryModel) data[1]);
+        DishModel dishModel = dishRequestMapper.toDish(dishRequestDto);
+        dishModel.setRestaurant(restaurant);
+        dishModel.setCategory(category);
+        dishModel.setActive(true);
 
         logger.info("Saving dish...");
         dishServicePort.saveDish(dishModel);
@@ -59,6 +62,7 @@ public class DishHandler implements IDishHandler {
     public void deleteDishById(Long id) {
         existsById(id);
 
+
         logger.warn("Deleting dish with id {}", id);
         dishServicePort.deleteDishById(id);
     }
@@ -67,8 +71,11 @@ public class DishHandler implements IDishHandler {
     public void updateDishById(Long id, UpdateDishRequestDto requestDto) {
         existsById(id);
 
+        DishModel dish = dishRequestMapper.updateToDish(requestDto);
+        existsRestaurantAndCategory(dish, requestDto.getRestaurantId(), requestDto.getCategoryId());
+
         logger.info("Updating restaurant...");
-        dishServicePort.updateDishById(id, dishRequestMapper.updateToDish(requestDto));
+        dishServicePort.updateDishById(id, dish);
     }
 
     private void existsById(Long id) {
@@ -78,8 +85,22 @@ public class DishHandler implements IDishHandler {
         }
     }
 
-    private Object[] getData(Long restaurantId, Long categoryId) {
-        logger.info("Verifying restaurant id and category id");
-        return dishServicePort.findRestaurantAndCategoryByIds(restaurantId, categoryId);
+    private RestaurantModel getRestaurantByRestaurantId(Long restaurantId) {
+        return (RestaurantModel) dishServicePort.findRestaurantByRestaurantId(restaurantId);
+    }
+
+    private CategoryModel getCategoryByCategoryId(Long categoryId) {
+        return (CategoryModel) dishServicePort.findCategoryByCategoryId(categoryId);
+    }
+
+    private void existsRestaurantAndCategory(DishModel dish, Long restaurantId, Long categoryId) {
+        if (restaurantId != null) {
+            logger.info("Verifying restaurant id");
+            dish.setRestaurant(getRestaurantByRestaurantId(restaurantId));
+        }
+        if (categoryId != null) {
+            logger.info("Verifying category id");
+            dish.setCategory(getCategoryByCategoryId(categoryId));
+        }
     }
 }

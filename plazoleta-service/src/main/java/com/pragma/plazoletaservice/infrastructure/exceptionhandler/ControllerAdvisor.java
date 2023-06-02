@@ -1,7 +1,9 @@
 package com.pragma.plazoletaservice.infrastructure.exceptionhandler;
 
 import com.pragma.plazoletaservice.infrastructure.exception.AlreadyExistsException;
+import com.pragma.plazoletaservice.infrastructure.exception.CategoryDoesNotExistException;
 import com.pragma.plazoletaservice.infrastructure.exception.NoDataFoundException;
+import com.pragma.plazoletaservice.infrastructure.exception.RestaurantDoesNotExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -30,6 +32,20 @@ public class ControllerAdvisor {
             AlreadyExistsException ignoredAlreadyExistsException) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.ALREADY_EXISTS.getMessage()));
+    }
+
+    @ExceptionHandler(CategoryDoesNotExistException.class)
+    public ResponseEntity<Map<String, String>> handleCategoryDoesNotExistException(
+            CategoryDoesNotExistException ignoredCategoryDoesNotExistException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.CATEGORY_DOES_NOT_EXIST.getMessage()));
+    }
+
+    @ExceptionHandler(RestaurantDoesNotExistException.class)
+    public ResponseEntity<Map<String, String>> handleRestaurantDoesNotExistException(
+            RestaurantDoesNotExistException ignoredRestaurantDoesNotExistException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.RESTAURANT_DOES_NOT_EXIST.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

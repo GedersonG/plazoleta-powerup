@@ -32,5 +32,7 @@ public class UpdateDishRequestDto {
     @Min(value = 1, message = "Restaurant is required")
     private Long restaurantId;
 
+    private boolean active;
+
     private String urlImage;
 }

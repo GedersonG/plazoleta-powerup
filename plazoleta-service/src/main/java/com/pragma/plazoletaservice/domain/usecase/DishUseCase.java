@@ -45,7 +45,12 @@ public class DishUseCase implements IDishServicePort {
     }
 
     @Override
-    public Object[] findRestaurantAndCategoryByIds(Long restaurantId, Long categoryId) {
-        return dishPersistencePort.findRestaurantAndCategoryByIds(restaurantId, categoryId);
+    public Object findRestaurantByRestaurantId(Long restaurantId) {
+        return dishPersistencePort.findRestaurantByRestaurantId(restaurantId);
+    }
+
+    @Override
+    public Object findCategoryByCategoryId(Long categoryId) {
+        return dishPersistencePort.findCategoryByCategoryId(categoryId);
     }
 }
