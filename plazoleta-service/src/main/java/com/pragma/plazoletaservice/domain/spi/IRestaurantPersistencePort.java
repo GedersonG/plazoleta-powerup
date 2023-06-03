@@ -5,7 +5,7 @@ import com.pragma.plazoletaservice.domain.model.RestaurantModel;
 import java.util.List;
 
 public interface IRestaurantPersistencePort {
-    RestaurantModel saveRestaurant(RestaurantModel restaurantModel);
+    void saveRestaurant(RestaurantModel restaurantModel);
 
     List<RestaurantModel> getAllRestaurants();
 

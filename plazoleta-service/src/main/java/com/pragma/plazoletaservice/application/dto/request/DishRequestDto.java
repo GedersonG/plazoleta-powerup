@@ -1,6 +1,5 @@
 package com.pragma.plazoletaservice.application.dto.request;
 
-import com.pragma.plazoletaservice.domain.model.CategoryModel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,8 +33,8 @@ public class DishRequestDto {
     @NotNull(message = "The price cannot be empty")
     private int price;
 
-    @Min(value = 1, message = "Restaurant is required")
-    @NotNull(message = "Mensaje desde empty")
+    @Min(value = 1, message = "Restaurant invalid")
+    @NotNull(message = "Restaurant is required")
     private Long restaurantId;
 
     private String urlImage;

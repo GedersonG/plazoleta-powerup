@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IDishHandler {
 
-    void saveDish(DishRequestDto dishRequestDto);
+    void saveDish(DishRequestDto dishRequestDto) throws IllegalAccessException;
 
     List<DishResponseDto> getAllDishs();
 
@@ -16,5 +16,5 @@ public interface IDishHandler {
 
     void deleteDishById(Long id);
 
-    void updateDishById(Long id, UpdateDishRequestDto requestDto);
+    void updateDishById(Long id, UpdateDishRequestDto requestDto) throws IllegalAccessException;
 }

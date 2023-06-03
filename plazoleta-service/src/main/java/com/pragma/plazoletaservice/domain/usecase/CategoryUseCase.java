@@ -21,7 +21,7 @@ public class CategoryUseCase implements ICategoryServicePort {
 
     @Override
     public List<CategoryModel> getAllCategorys() {
-        return categoryPersistencePort.getAllCategorys();
+        return categoryPersistencePort.getAllCategories();
     }
 
     @Override

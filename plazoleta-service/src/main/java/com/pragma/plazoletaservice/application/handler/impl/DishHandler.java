@@ -85,11 +85,11 @@ public class DishHandler implements IDishHandler {
     }
 
     private RestaurantModel getRestaurantByRestaurantId(Long restaurantId) {
-        return (RestaurantModel) dishServicePort.findRestaurantByRestaurantId(restaurantId);
+        return dishServicePort.findRestaurantByRestaurantId(restaurantId);
     }
 
     private CategoryModel getCategoryByCategoryId(Long categoryId) {
-        return (CategoryModel) dishServicePort.findCategoryByCategoryId(categoryId);
+        return dishServicePort.findCategoryByCategoryId(categoryId);
     }
 
     private void existsRestaurantAndCategory(DishModel dish, Long restaurantId, Long categoryId) {

@@ -20,14 +20,14 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
     private final IRestaurantEntityMapper restaurantEntityMapper;
 
     @Override
-    public RestaurantModel saveRestaurant(RestaurantModel restaurantModel) {
+    public void saveRestaurant(RestaurantModel restaurantModel) {
         RestaurantEntity restaurantEntity =
                 restaurantRepository.save(restaurantEntityMapper.toEntity(restaurantModel));
 
         logger.info("New restaurant saved: {} with id -> {}",
                     restaurantEntity.getName(),
                     restaurantEntity.getRestaurantId());
-        return restaurantEntityMapper.toRestaurantModel(restaurantEntity);
+        restaurantEntityMapper.toRestaurantModel(restaurantEntity);
     }
 
     @Override
@@ -57,12 +57,7 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
     @Override
     public void updateRestaurantById(Long id, RestaurantModel restaurantModel) {
         restaurantRepository.updateRestaurant(
-                id,
-                restaurantModel.getName(),
-                restaurantModel.getAddress(),
-                restaurantModel.getOwnerId(),
-                restaurantModel.getUrlLogo(),
-                restaurantModel.getNit()
+                id, restaurantEntityMapper.toEntity(restaurantModel)
         );
     }
 

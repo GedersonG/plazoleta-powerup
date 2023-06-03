@@ -10,14 +10,12 @@ public interface ICategoryRepository extends JpaRepository<CategoryEntity, Long>
 
     @Modifying
     @Query("UPDATE CategoryEntity c SET " +
-            "c.name = COALESCE(:name, c.name), " +
-            "c.description = COALESCE(:description, c.description) " +
+            "c.name = COALESCE(:#{#categoryModel.name}, c.name), " +
+            "c.description = COALESCE(:#{#categoryModel.description}, c.description) " +
             "WHERE c.categoryId = :categoryId"
     )
-    void updateCategory(@Param("categoryId") Long categoryId,
-                        @Param("name") String name,
-                        @Param("description") String description
-    );
+    void updateCategory(@Param("categoryId") Long categoryId, @Param("categoryModel") CategoryEntity categoryModel);
+
 
     boolean existsByName(String name);
 }

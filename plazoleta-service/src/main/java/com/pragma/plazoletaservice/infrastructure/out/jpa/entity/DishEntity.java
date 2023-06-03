@@ -13,9 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "dishes")
@@ -45,7 +43,7 @@ public class DishEntity {
     @Column(nullable = false)
     private boolean active = false;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "category_id")
     private CategoryEntity category;
 

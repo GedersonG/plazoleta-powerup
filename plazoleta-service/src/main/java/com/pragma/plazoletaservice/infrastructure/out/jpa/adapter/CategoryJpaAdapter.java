@@ -31,7 +31,7 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
     }
 
     @Override
-    public List<CategoryModel> getAllCategorys() {
+    public List<CategoryModel> getAllCategories() {
         List<CategoryEntity> categoryList = categoryRepository.findAll();
         if (categoryList.isEmpty()) {
             logger.error("Category list it's empty.");
@@ -56,11 +56,7 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
 
     @Override
     public void updateCategoryById(Long id, CategoryModel categoryModel) {
-        categoryRepository.updateCategory(
-                id,
-                categoryModel.getName(),
-                categoryModel.getDescription()
-        );
+        categoryRepository.updateCategory(id, categoryEntityMapper.toEntity(categoryModel));
     }
 
     @Override

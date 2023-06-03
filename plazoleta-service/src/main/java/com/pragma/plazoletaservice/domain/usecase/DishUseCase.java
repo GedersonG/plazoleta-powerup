@@ -1,7 +1,9 @@
 package com.pragma.plazoletaservice.domain.usecase;
 
 import com.pragma.plazoletaservice.domain.api.IDishServicePort;
+import com.pragma.plazoletaservice.domain.model.CategoryModel;
 import com.pragma.plazoletaservice.domain.model.DishModel;
+import com.pragma.plazoletaservice.domain.model.RestaurantModel;
 import com.pragma.plazoletaservice.domain.spi.IDishPersistencePort;
 
 import java.util.List;
@@ -21,7 +23,7 @@ public class DishUseCase implements IDishServicePort {
 
     @Override
     public List<DishModel> getAllDishs() {
-        return dishPersistencePort.getAllDishs();
+        return dishPersistencePort.getAllDishes();
     }
 
     @Override
@@ -45,12 +47,12 @@ public class DishUseCase implements IDishServicePort {
     }
 
     @Override
-    public Object findRestaurantByRestaurantId(Long restaurantId) {
+    public RestaurantModel findRestaurantByRestaurantId(Long restaurantId) {
         return dishPersistencePort.findRestaurantByRestaurantId(restaurantId);
     }
 
     @Override
-    public Object findCategoryByCategoryId(Long categoryId) {
+    public CategoryModel findCategoryByCategoryId(Long categoryId) {
         return dishPersistencePort.findCategoryByCategoryId(categoryId);
     }
 }

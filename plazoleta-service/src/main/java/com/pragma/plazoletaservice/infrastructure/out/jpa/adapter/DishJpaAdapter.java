@@ -1,8 +1,9 @@
 package com.pragma.plazoletaservice.infrastructure.out.jpa.adapter;
 
+import com.pragma.plazoletaservice.domain.model.CategoryModel;
 import com.pragma.plazoletaservice.domain.model.DishModel;
+import com.pragma.plazoletaservice.domain.model.RestaurantModel;
 import com.pragma.plazoletaservice.domain.spi.IDishPersistencePort;
-import com.pragma.plazoletaservice.infrastructure.exception.CategoryDoesNotExistException;
 import com.pragma.plazoletaservice.infrastructure.exception.NoDataFoundException;
 import com.pragma.plazoletaservice.infrastructure.exception.RestaurantDoesNotExistException;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.entity.DishEntity;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.Tuple;
+import java.math.BigInteger;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,7 +36,7 @@ public class DishJpaAdapter implements IDishPersistencePort {
     }
 
     @Override
-    public List<DishModel> getAllDishs() {
+    public List<DishModel> getAllDishes() {
         List<DishEntity> dishList = dishRepository.findAll();
         if (dishList.isEmpty()) {
             logger.error("Dish list it's empty.");
@@ -58,18 +61,7 @@ public class DishJpaAdapter implements IDishPersistencePort {
 
     @Override
     public void updateDishById(Long id, DishModel dishModel) {
-        DishEntity entity = dishEntityMapper.toEntity(dishModel);
-
-        dishRepository.updateDish(
-                id,
-                entity.getName(),
-                entity.getDescription(),
-                entity.getPrice(),
-                entity.getUrlImage(),
-                entity.isActive(),
-                entity.getCategory(),
-                entity.getRestaurant()
-        );
+        dishRepository.updateDish(id, dishEntityMapper.toEntity(dishModel));
     }
 
     @Override
@@ -78,16 +70,33 @@ public class DishJpaAdapter implements IDishPersistencePort {
     }
 
     @Override
-    public Object findRestaurantByRestaurantId(Long restaurantId) {
-        return dishRepository
+    public RestaurantModel findRestaurantByRestaurantId(Long restaurantId) {
+        logger.info("Searching restaurant with id {}", restaurantId);
+        Tuple result = dishRepository
                 .findRestaurantByRestaurantId(restaurantId)
                 .orElseThrow(RestaurantDoesNotExistException::new);
+
+        String address = result.get("address", String.class);
+        String name = result.get("name", String.class);
+        String nit = result.get("nit", String.class);
+        BigInteger ownerIdBigInteger = result.get("owner_id", BigInteger.class);
+        Long ownerId = ownerIdBigInteger.longValue();
+        String telephone = result.get("telephone", String.class);
+        String urlLogo = result.get("url_logo", String.class);
+
+        return new RestaurantModel(restaurantId, name, address, ownerId, telephone, urlLogo, nit);
     }
 
     @Override
-    public Object findCategoryByCategoryId(Long categoryId) {
-        return dishRepository
+    public CategoryModel findCategoryByCategoryId(Long categoryId) {
+        logger.info("Searching restaurant with id {}", categoryId);
+        Tuple result = dishRepository
                 .findCategoryByCategoryId(categoryId)
-                .orElseThrow(CategoryDoesNotExistException::new);
+                .orElseThrow(RestaurantDoesNotExistException::new);
+
+        String name = result.get("name", String.class);
+        String description = result.get("description", String.class);
+
+        return new CategoryModel(categoryId, name, description);
     }
 }

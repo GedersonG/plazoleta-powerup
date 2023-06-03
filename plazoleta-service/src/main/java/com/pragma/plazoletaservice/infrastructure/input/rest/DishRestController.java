@@ -38,7 +38,7 @@ public class DishRestController {
             @ApiResponse(responseCode = "409", description = "Dish already exists", content = @Content)
     })
     @PostMapping
-    public ResponseEntity<Void> saveDish(@Valid @RequestBody DishRequestDto dishRequestDto) {
+    public ResponseEntity<Void> saveDish(@Valid @RequestBody DishRequestDto dishRequestDto) throws IllegalAccessException {
         dishHandler.saveDish(dishRequestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -88,7 +88,7 @@ public class DishRestController {
     public ResponseEntity<Void> updateDishById(
             @PathVariable Long id,
             @Valid @RequestBody UpdateDishRequestDto requestDto
-    ) {
+    ) throws IllegalAccessException {
         dishHandler.updateDishById(id, requestDto);
         return ResponseEntity.ok().build();
     }

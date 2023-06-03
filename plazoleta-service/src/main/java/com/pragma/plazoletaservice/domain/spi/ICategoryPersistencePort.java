@@ -8,7 +8,7 @@ public interface ICategoryPersistencePort {
 
     CategoryModel saveCategory(CategoryModel categoryModel);
 
-    List<CategoryModel> getAllCategorys();
+    List<CategoryModel> getAllCategories();
 
     CategoryModel getCategoryById(Long id);
 

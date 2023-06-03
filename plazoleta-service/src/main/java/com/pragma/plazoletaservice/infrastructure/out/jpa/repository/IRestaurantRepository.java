@@ -9,21 +9,15 @@ import org.springframework.data.repository.query.Param;
 public interface IRestaurantRepository extends JpaRepository<RestaurantEntity, Long> {
     @Modifying
     @Query("UPDATE RestaurantEntity r SET " +
-           "r.name = COALESCE(:name, r.name), " +
-           "r.address = COALESCE(:address, r.address), " +
-           "r.ownerId = COALESCE(:ownerId, r.ownerId), " +
-           "r.telephone = COALESCE(:telephone, r.telephone), " +
-           "r.urlLogo = COALESCE(:urlLogo, r.urlLogo), " +
-           "r.nit = COALESCE(:nit, r.nit) " +
-           "WHERE r.restaurantId = :restaurantId"
+            "r.name = COALESCE(:#{#restaurantModel.name}, r.name), " +
+            "r.address = COALESCE(:#{#restaurantModel.address}, r.address), " +
+            "r.ownerId = COALESCE(:#{#restaurantModel.ownerId}, r.ownerId), " +
+            "r.telephone = COALESCE(:#{#restaurantModel.telephone}, r.telephone), " +
+            "r.urlLogo = COALESCE(:#{#restaurantModel.urlLogo}, r.urlLogo), " +
+            "r.nit = COALESCE(:#{#restaurantModel.nit}, r.nit) " +
+            "WHERE r.restaurantId = :restaurantId"
     )
-    void updateRestaurant(@Param("restaurantId") Long restaurantId,
-                        @Param("name") String name,
-                        @Param("address") String address,
-                        @Param("ownerId") Long ownerId,
-                        @Param("urlLogo") String urlLogo,
-                        @Param("nit") String nit
-    );
+    void updateRestaurant(@Param("restaurantId") Long restaurantId, @Param("restaurantModel") RestaurantEntity restaurantModel);
 
     boolean existsByNit(String nit);
 }

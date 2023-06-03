@@ -29,12 +29,12 @@ public class RestaurantRequestDto {
     private Long ownerId;
 
     @NotEmpty(message = "Please enter a number")
-    @Pattern(regexp = "^[0-9]{10}+$", message = "Invalid phone number.")
+    @Pattern(regexp = "^\\d{10}+$", message = "Invalid phone number.")
     private String telephone;
 
     private String urlLogo;
 
     @NotEmpty(message = "The nit is mandatory")
-    @Pattern(regexp = "^[0-9]+$", message = "Invalid nit.")
+    @Pattern(regexp = "^\\d+$", message = "Invalid nit.")
     private String nit;
 }

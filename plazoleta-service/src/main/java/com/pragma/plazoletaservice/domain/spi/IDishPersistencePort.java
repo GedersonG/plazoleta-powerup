@@ -1,6 +1,8 @@
 package com.pragma.plazoletaservice.domain.spi;
 
+import com.pragma.plazoletaservice.domain.model.CategoryModel;
 import com.pragma.plazoletaservice.domain.model.DishModel;
+import com.pragma.plazoletaservice.domain.model.RestaurantModel;
 
 import java.util.List;
 
@@ -8,7 +10,7 @@ public interface IDishPersistencePort {
 
     DishModel saveDish(DishModel dishModel);
 
-    List<DishModel> getAllDishs();
+    List<DishModel> getAllDishes();
 
     DishModel getDishById(Long id);
 
@@ -18,7 +20,7 @@ public interface IDishPersistencePort {
 
     boolean existsById(Long id);
 
-    Object findRestaurantByRestaurantId(Long restaurantId);
+    RestaurantModel findRestaurantByRestaurantId(Long restaurantId);
 
-    Object findCategoryByCategoryId(Long categoryId);
+    CategoryModel findCategoryByCategoryId(Long categoryId);
 }
