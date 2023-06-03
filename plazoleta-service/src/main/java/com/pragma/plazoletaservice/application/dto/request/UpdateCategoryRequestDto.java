@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Builder
 public class UpdateCategoryRequestDto {
 
-    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,50}$", message = "The name cannot contain special characters")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]{1,50}+$", message = "The name cannot contain special characters")
     private String name;
 
     @Size(min = 3, max = 100, message = "Invalid description")

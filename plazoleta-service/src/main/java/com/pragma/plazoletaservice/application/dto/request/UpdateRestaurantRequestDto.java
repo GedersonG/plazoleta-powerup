@@ -21,11 +21,11 @@ public class UpdateRestaurantRequestDto {
 
     private Long ownerId;
 
-    @Pattern(regexp = "^[0-9]{10}$", message = "Invalid phone number.")
+    @Pattern(regexp = "^[0-9]{10}+$", message = "Invalid phone number.")
     private String telephone;
 
     private String urlLogo;
 
-    @Pattern(regexp = "^[0-9]$", message = "Invalid nit.")
+    @Pattern(regexp = "^[0-9]+$", message = "Invalid nit.")
     private String nit;
 }

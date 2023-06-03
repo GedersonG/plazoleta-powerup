@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -22,7 +23,7 @@ public class DishRequestDto {
     private String name;
 
     @Min(value = 1, message = "Category Id is required")
-    @NotEmpty(message = "The category is required") // ??
+    @NotNull(message = "The category is required") // ??
     private Long categoryId;
 
     @Size(min = 3, max = 100, message = "Invalid description")
@@ -30,11 +31,11 @@ public class DishRequestDto {
 
     @Min(value = 1000, message = "The minimum price for the dish is 1000")
     @Max(value = 1000000, message = "The maximum price for the dish is 1000000")
-    @NotEmpty(message = "The price cannot be empty")
+    @NotNull(message = "The price cannot be empty")
     private int price;
 
     @Min(value = 1, message = "Restaurant is required")
-    @NotEmpty(message = "Mensaje desde empty")
+    @NotNull(message = "Mensaje desde empty")
     private Long restaurantId;
 
     private String urlImage;

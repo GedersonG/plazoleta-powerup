@@ -29,6 +29,7 @@ import java.util.List;
 @RequestMapping("/api/v1/category")
 @RequiredArgsConstructor
 public class CategoryRestController {
+
     private final ICategoryHandler categoryHandler;
 
     @Operation(summary = "Add a new category")

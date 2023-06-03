@@ -31,6 +31,7 @@ public class RestaurantHandler implements IRestaurantHandler {
     @Override
     public void saveRestaurant(RestaurantRequestDto restaurantRequestDto) {
         existsByNit(restaurantRequestDto.getNit());
+        System.out.println("DESC -> " + restaurantRequestDto.getUrlLogo());
         if (restaurantRequestDto.getUrlLogo() == null) {
             restaurantRequestDto.setUrlLogo("");
         }

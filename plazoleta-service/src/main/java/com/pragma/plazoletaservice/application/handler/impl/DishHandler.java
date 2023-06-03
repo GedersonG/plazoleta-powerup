@@ -62,7 +62,6 @@ public class DishHandler implements IDishHandler {
     public void deleteDishById(Long id) {
         existsById(id);
 
-
         logger.warn("Deleting dish with id {}", id);
         dishServicePort.deleteDishById(id);
     }
