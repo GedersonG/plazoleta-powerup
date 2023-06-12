@@ -2,15 +2,23 @@ server:
   port: 8082
 
 spring:
+  application:
+    name: plazoleta-service
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8080
   datasource:
     url: jdbc:mysql://localhost:3306/plazoletadb
     username: root
     password: password
-
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
 
 appDescription: "Plazoleta Service by Pragma Powerup"
 appVersion: "1.0.0"

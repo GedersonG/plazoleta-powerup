@@ -2,6 +2,7 @@ package com.pragma.plazoletaservice.infrastructure.out.jpa.adapter;
 
 import com.pragma.plazoletaservice.domain.model.CategoryModel;
 import com.pragma.plazoletaservice.domain.spi.ICategoryPersistencePort;
+import com.pragma.plazoletaservice.infrastructure.exception.CategoryDoesNotExistException;
 import com.pragma.plazoletaservice.infrastructure.exception.NoDataFoundException;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.entity.CategoryEntity;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.mapper.ICategoryEntityMapper;
@@ -45,7 +46,7 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
         CategoryEntity category =
                 categoryRepository
                         .findById(id)
-                        .orElseThrow(NoDataFoundException::new);
+                        .orElseThrow(CategoryDoesNotExistException::new);
         return categoryEntityMapper.toCategoryModel(category);
     }
 

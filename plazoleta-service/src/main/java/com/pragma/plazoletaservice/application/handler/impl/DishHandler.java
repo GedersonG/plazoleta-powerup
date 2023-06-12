@@ -6,7 +6,9 @@ import com.pragma.plazoletaservice.application.dto.response.DishResponseDto;
 import com.pragma.plazoletaservice.application.handler.IDishHandler;
 import com.pragma.plazoletaservice.application.mapper.request.IDishRequestMapper;
 import com.pragma.plazoletaservice.application.mapper.response.IDishResponseMapper;
+import com.pragma.plazoletaservice.domain.api.ICategoryServicePort;
 import com.pragma.plazoletaservice.domain.api.IDishServicePort;
+import com.pragma.plazoletaservice.domain.api.IRestaurantServicePort;
 import com.pragma.plazoletaservice.domain.model.CategoryModel;
 import com.pragma.plazoletaservice.domain.model.DishModel;
 import com.pragma.plazoletaservice.domain.model.RestaurantModel;
@@ -26,26 +28,26 @@ public class DishHandler implements IDishHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(DishHandler.class);
     private final IDishServicePort dishServicePort;
+    private final IRestaurantServicePort restaurantServicePort;
+    private final ICategoryServicePort categoryServicePort;
     private final IDishRequestMapper dishRequestMapper;
     private final IDishResponseMapper dishResponseMapper;
 
     @Override
     public void saveDish(DishRequestDto dishRequestDto) {
-        logger.info("Verifying restaurant id and category id");
-        RestaurantModel restaurant = getRestaurantByRestaurantId(dishRequestDto.getRestaurantId());
-        CategoryModel category = getCategoryByCategoryId(dishRequestDto.getRestaurantId());
-
+        // Adjust and verify dish
         if (dishRequestDto.getDescription() == null) {
             dishRequestDto.setDescription("");
         }
-
-        DishModel dishModel = dishRequestMapper.toDish(dishRequestDto);
-        dishModel.setRestaurant(restaurant);
-        dishModel.setCategory(category);
-        dishModel.setActive(true);
+        DishModel dish = dishRequestMapper.toDish(dishRequestDto);
+        existsRestaurantAndCategory(dish,
+                dishRequestDto.getRestaurantId(),
+                dishRequestDto.getCategoryId()
+        );
+        dish.setActive(true);
 
         logger.info("Saving dish...");
-        dishServicePort.saveDish(dishModel);
+        dishServicePort.saveDish(dish);
     }
 
     @Override
@@ -85,11 +87,11 @@ public class DishHandler implements IDishHandler {
     }
 
     private RestaurantModel getRestaurantByRestaurantId(Long restaurantId) {
-        return dishServicePort.findRestaurantByRestaurantId(restaurantId);
+        return restaurantServicePort.getRestaurantById(restaurantId);
     }
 
     private CategoryModel getCategoryByCategoryId(Long categoryId) {
-        return dishServicePort.findCategoryByCategoryId(categoryId);
+        return categoryServicePort.getCategoryById(categoryId);
     }
 
     private void existsRestaurantAndCategory(DishModel dish, Long restaurantId, Long categoryId) {

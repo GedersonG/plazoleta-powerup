@@ -1,8 +1,6 @@
 package com.pragma.plazoletaservice.domain.api;
 
-import com.pragma.plazoletaservice.domain.model.CategoryModel;
 import com.pragma.plazoletaservice.domain.model.DishModel;
-import com.pragma.plazoletaservice.domain.model.RestaurantModel;
 
 import java.util.List;
 
@@ -19,8 +17,4 @@ public interface IDishServicePort {
     void updateDishById(Long id, DishModel dishModel);
 
     boolean existsById(Long id);
-
-    RestaurantModel findRestaurantByRestaurantId(Long restaurantId);
-
-    CategoryModel findCategoryByCategoryId(Long categoryId);
 }

@@ -1,9 +1,7 @@
 package com.pragma.plazoletaservice.domain.usecase;
 
 import com.pragma.plazoletaservice.domain.api.IDishServicePort;
-import com.pragma.plazoletaservice.domain.model.CategoryModel;
 import com.pragma.plazoletaservice.domain.model.DishModel;
-import com.pragma.plazoletaservice.domain.model.RestaurantModel;
 import com.pragma.plazoletaservice.domain.spi.IDishPersistencePort;
 
 import java.util.List;
@@ -44,15 +42,5 @@ public class DishUseCase implements IDishServicePort {
     @Override
     public boolean existsById(Long id) {
         return dishPersistencePort.existsById(id);
-    }
-
-    @Override
-    public RestaurantModel findRestaurantByRestaurantId(Long restaurantId) {
-        return dishPersistencePort.findRestaurantByRestaurantId(restaurantId);
-    }
-
-    @Override
-    public CategoryModel findCategoryByCategoryId(Long categoryId) {
-        return dishPersistencePort.findCategoryByCategoryId(categoryId);
     }
 }

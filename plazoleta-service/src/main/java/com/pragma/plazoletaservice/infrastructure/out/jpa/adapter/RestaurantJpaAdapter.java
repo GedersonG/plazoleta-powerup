@@ -3,6 +3,7 @@ package com.pragma.plazoletaservice.infrastructure.out.jpa.adapter;
 import com.pragma.plazoletaservice.domain.model.RestaurantModel;
 import com.pragma.plazoletaservice.domain.spi.IRestaurantPersistencePort;
 import com.pragma.plazoletaservice.infrastructure.exception.NoDataFoundException;
+import com.pragma.plazoletaservice.infrastructure.exception.RestaurantDoesNotExistException;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.entity.RestaurantEntity;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.mapper.IRestaurantEntityMapper;
 import com.pragma.plazoletaservice.infrastructure.out.jpa.repository.IRestaurantRepository;
@@ -45,7 +46,7 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
         RestaurantEntity restaurant =
                 restaurantRepository
                 .findById(id)
-                .orElseThrow(NoDataFoundException::new);
+                .orElseThrow(RestaurantDoesNotExistException::new);
         return restaurantEntityMapper.toRestaurantModel(restaurant);
     }
 
